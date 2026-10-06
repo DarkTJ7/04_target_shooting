@@ -22,17 +22,19 @@ def main():
     engine = GameEngine()
     running = True
     while running:
+        dt = clock.tick(60) / 1000
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 engine.handle_click(event.pos)
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_r and engine.game_over:
+                engine.start_round()
 
-        engine.update()
+        engine.update(dt)
         engine.draw(screen, font)
 
         pygame.display.flip()
-        clock.tick(60)
 
     pygame.quit()
 

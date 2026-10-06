@@ -39,6 +39,8 @@ class GameEngine:
                       vy=speed * math.sin(angle))
 
     def handle_click(self, pos):
+        if self.game_over:
+            return
         target = check_hit(self.targets, pos)
         if target is not None:
             self.hits += 1
@@ -63,4 +65,6 @@ class GameEngine:
     def draw(self, surface, font):
         from game import renderer
         renderer.draw_scene(surface, self.targets)
-        renderer.draw_text(surface, font, f"Hits: {self.hits}  Misses: {self.misses}", (10, 10))
+        renderer.draw_hud(surface, font, self)
+        if self.game_over:
+            renderer.draw_game_over(surface, font, self.score)
